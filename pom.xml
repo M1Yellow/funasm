@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.doidea</groupId>
+    <artifactId>doidea-asm</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <!--<compilerArgument>-XDignore.symbol.file</compilerArgument>-->
+                    <compilerArgs>
+                        <!-- 解决 Maven package 打包，程序包 jdk.internal.org.objectweb.asm 不可见 -->
+                        <arg>--add-exports=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED</arg>
+                    </compilerArgs>
+                    <compilerArguments>
+                        <!--<verbose/>-->
+                        <!-- 将jdk的依赖jar打入项目中，这样项目中使用的jdk的依赖就可以正常使用，试了没效果 -->
+                        <!--<bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar;${java.home}/lib/jsse.jar</bootclasspath>-->
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <!-- 自动添加和配置 META-INF/MANIFEST.MF -->
+                        <manifest>
+                            <!-- 指定入口函数 -->
+                            <mainClass>com.doidea.core.Launcher</mainClass>
+                            <!-- 是否添加依赖的jar路径配置 -->
+                            <!-- maven-assembly-plugin 不需要设置lib -->
+                            <!--<addClasspath>false</addClasspath>-->
+                            <!-- 依赖jar包位置前缀 -->
+                            <!--<classpathPrefix>lib/</classpathPrefix>-->
+                        </manifest>
+                        <!-- MANIFEST.MF 补充参数 -->
+                        <manifestEntries>
+                            <Premain-Class>com.doidea.core.Launcher</Premain-Class>
+                            <Agent-Class>com.doidea.core.Launcher</Agent-Class>
+                            <Main-Class>com.doidea.core.Launcher</Main-Class>
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                            <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
