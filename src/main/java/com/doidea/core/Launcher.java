@@ -128,6 +128,7 @@ public class Launcher {
             super.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
 
             /*
+            // title = title.trim(); // 尽可能不改动原 title
             if (title.trim().equalsIgnoreCase("Licenses") || title.trim().equalsIgnoreCase("许可证")) {
                 throw new RuntimeException("Licenses dialog abort.");
             }
@@ -145,7 +146,7 @@ public class Launcher {
             super.visitLdcInsn("\u8bb8\u53ef\u8bc1");
             super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false);
             Label label4 = new Label();
-            super.visitJumpInsn(IFEQ, label4);
+            super.visitJumpInsn(IFEQ, label4); // IFEQ 等于0跳转，0-false; 1-true
             super.visitLabel(label3);
             super.visitTypeInsn(NEW, "java/lang/RuntimeException");
             super.visitInsn(DUP);

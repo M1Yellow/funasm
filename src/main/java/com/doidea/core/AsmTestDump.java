@@ -2,9 +2,6 @@ package com.doidea.core;
 
 import jdk.internal.org.objectweb.asm.*;
 
-/**
- * AsmTest ASM 转换类
- */
 public class AsmTestDump implements Opcodes {
 
     public static byte[] dump() throws Exception {
@@ -50,7 +47,7 @@ public class AsmTestDump implements Opcodes {
             methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
             Label label2 = new Label();
             methodVisitor.visitLabel(label2);
-            methodVisitor.visitLineNumber(7, label2);
+            methodVisitor.visitLineNumber(8, label2);
             methodVisitor.visitVarInsn(ALOAD, 1);
             methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;", false);
             methodVisitor.visitLdcInsn("Licenses");
@@ -64,7 +61,7 @@ public class AsmTestDump implements Opcodes {
             Label label4 = new Label();
             methodVisitor.visitJumpInsn(IFEQ, label4);
             methodVisitor.visitLabel(label3);
-            methodVisitor.visitLineNumber(8, label3);
+            methodVisitor.visitLineNumber(9, label3);
             methodVisitor.visitFrame(Opcodes.F_APPEND, 1, new Object[]{"java/lang/String"}, 0, null);
             methodVisitor.visitTypeInsn(NEW, "java/lang/RuntimeException");
             methodVisitor.visitInsn(DUP);
@@ -72,7 +69,7 @@ public class AsmTestDump implements Opcodes {
             methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "(Ljava/lang/String;)V", false);
             methodVisitor.visitInsn(ATHROW);
             methodVisitor.visitLabel(label4);
-            methodVisitor.visitLineNumber(10, label4);
+            methodVisitor.visitLineNumber(11, label4);
             methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
             methodVisitor.visitInsn(RETURN);
             Label label5 = new Label();
