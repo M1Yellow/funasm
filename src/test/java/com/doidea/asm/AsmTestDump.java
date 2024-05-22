@@ -1,4 +1,4 @@
-package com.doidea.core;
+package com.doidea.asm;
 
 import jdk.internal.org.objectweb.asm.*;
 
