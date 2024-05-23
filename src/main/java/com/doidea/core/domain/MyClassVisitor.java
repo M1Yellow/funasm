@@ -8,8 +8,7 @@ import jdk.internal.org.objectweb.asm.Type;
 
 import java.util.List;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.ARETURN;
-import static jdk.internal.org.objectweb.asm.Opcodes.ASM8;
+import static jdk.internal.org.objectweb.asm.Opcodes.*;
 
 /**
  * 自定义类访问处理器
@@ -43,11 +42,13 @@ public class MyClassVisitor extends ClassVisitor {
      * 清空方法体，修改返回值
      */
     private boolean generateNewBody(MethodVisitor mv, String targetMethod, int methodAccess, String methodDesc) {
-        boolean result;
+        boolean result = false;
         switch (targetMethod) {
-            case "n":
-                doMachineId(mv, targetMethod, methodAccess, methodDesc);
-                result = true;
+            case "j":
+                // 重写 machineId 生成方法
+                result = doMachineIdNew(mv, targetMethod, methodAccess, methodDesc);
+                System.out.println(">>>> doMachineIdNew result: " + result);
+                if (result) break;
                 break;
             default:
                 result = false;
@@ -59,8 +60,16 @@ public class MyClassVisitor extends ClassVisitor {
     /**
      * 重写获取 machineId 方法
      * 只改一个 machineId 没用，还有 hostName、userName，还是多重加密，太费时费力
+     * machineId 有一个生成方法
+     * hostName 由 machineId base64 加密生成
+     * userName 取的是系统当前用户名，【只改用户名】，可以获取新的试用许可，但为了稳妥起见，machineId 最好也一起改
      */
-    private void doMachineId(MethodVisitor mv, String targetMethod, int methodAccess, String methodDesc) {
+    private boolean doMachineIdNew(MethodVisitor mv, String targetMethod, int methodAccess, String methodDesc) {
+
+        // 根据 methodDesc 区分重载方法，注意对象类型有“;”
+        if (!methodDesc.equals("(II)Ljava/lang/String;")) return false;
+        System.out.println(">>>> doMachineIdNew target methodDesc: " + methodDesc);
+
         // 方法参数和返回值类型
         Type t = Type.getType(methodDesc);
         Type[] argumentTypes = t.getArgumentTypes();
@@ -74,15 +83,32 @@ public class MyClassVisitor extends ClassVisitor {
         }
         int stackSize = returnType.getSize();
 
+        // 打印入参
+        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+        mv.visitVarInsn(ILOAD, 0);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V", false);
+        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+        mv.visitVarInsn(ILOAD, 1);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(I)V", false);
+
         // 方法体
         mv.visitCode();
-        // 重写
-        mv.visitLdcInsn("v53d4b07-g5y7-3fi9-vs34-b5t8cd21s7f4");
+        // 目前 machineId 为 UUID
+        mv.visitMethodInsn(INVOKESTATIC, "java/util/UUID", "randomUUID", "()Ljava/util/UUID;", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/UUID", "toString", "()Ljava/lang/String;", false);
+        mv.visitVarInsn(ASTORE, 2);
+        // 打印 UUID
+        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+        mv.visitVarInsn(ALOAD, 2);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+        mv.visitVarInsn(ALOAD, 2);
         mv.visitInsn(ARETURN);
 
         mv.visitMaxs(stackSize, localSize);
         //mv.visitMaxs(1, 0);
         //mv.visitMaxs(2, 1);
         mv.visitEnd();
+
+        return true;
     }
 }
