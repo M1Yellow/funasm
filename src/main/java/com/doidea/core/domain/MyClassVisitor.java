@@ -46,9 +46,8 @@ public class MyClassVisitor extends ClassVisitor {
         switch (targetMethod) {
             case "j":
                 // 重写 machineId 生成方法
-                result = doMachineIdNew(mv, targetMethod, methodAccess, methodDesc);
-                System.out.println(">>>> doMachineIdNew result: " + result);
-                if (result) break;
+                doMachineIdNew(mv, targetMethod, methodAccess, methodDesc);
+                result = true;
                 break;
             default:
                 result = false;

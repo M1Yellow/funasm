@@ -58,16 +58,16 @@ public class MyMethodVisitor extends MethodVisitor {
 
         switch (currMethod) {
             case "setTitle":
-                if (doJDialogSetTitleEnter(mv, methodAccess, methodDesc)) break;
+                doJDialogSetTitleEnter(mv, methodAccess, methodDesc);
                 break;
             case "<init>": // <init> 为构造方法
-                //if (doUrlEnter(mv, methodAccess, methodDesc)) break;
-                if (doValidateKeyEnter(mv, methodAccess, methodDesc)) break;
+                //doUrlEnter(mv, methodAccess, methodDesc);
+                doValidateKeyEnter(mv, methodAccess, methodDesc);
                 break;
             case "j":
                 // base64 加密参数处理
-                if (doBase64BeforeFunEnter(mv, methodAccess, methodDesc)) break;
-                //if (doMachineIdEnter(mv, methodAccess, methodDesc)) break;
+                doBase64BeforeFunEnter(mv, methodAccess, methodDesc);
+                //doMachineIdEnter(mv, methodAccess, methodDesc);
                 break;
             default:
                 break;
@@ -105,7 +105,7 @@ public class MyMethodVisitor extends MethodVisitor {
     private boolean doJDialogSetTitleEnter(MethodVisitor mv, int methodAccess, String methodDesc) {
 
         if (!methodDesc.equals("(Ljava/lang/String;)V")) return false;
-        System.out.println(">>>> doUrlEnter target methodDesc: " + methodDesc);
+        System.out.println(">>>> doJDialogSetTitleEnter target methodDesc: " + methodDesc);
 
         // System.out.println(title);
         mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
