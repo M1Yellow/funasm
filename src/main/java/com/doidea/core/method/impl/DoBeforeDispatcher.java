@@ -1,113 +1,26 @@
-package com.doidea.core.domain;
+package com.doidea.core.method.impl;
 
-import jdk.internal.org.objectweb.asm.*;
+import com.doidea.core.method.DoBefore;
+import jdk.internal.org.objectweb.asm.Handle;
+import jdk.internal.org.objectweb.asm.Label;
+import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.internal.org.objectweb.asm.Opcodes;
 
 import static jdk.internal.org.objectweb.asm.Opcodes.*;
 
-/**
- * 自定义方法访问处理器
- */
-public class MyMethodVisitor extends MethodVisitor {
+public enum DoBeforeDispatcher implements DoBefore {
 
-    private final String currMethod;
-    private final int methodAccess;
-    private final String methodDesc;
+    INSTANCE;
 
-
-    public MyMethodVisitor(int api, MethodVisitor mv, String currMethod, int access, String descriptor) {
-        super(api, mv);
-        this.currMethod = currMethod;
-        this.methodAccess = access;
-        this.methodDesc = descriptor;
-    }
-
-
-    /**
-     * 打印调用堆栈，RuntimeException 方式
-     */
-    public static void addPrintRuntimeExceptionStackTrace(MethodVisitor mv) {
-        // new RuntimeException(">>>> Print stacktrace: \n").printStackTrace();
-        mv.visitTypeInsn(NEW, "java/lang/RuntimeException");
-        mv.visitInsn(DUP);
-        mv.visitLdcInsn(">>>> Print stacktrace: \n");
-        mv.visitMethodInsn(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "(Ljava/lang/String;)V", false);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/RuntimeException", "printStackTrace", "()V", false);
-    }
-
-    /**
-     * 打印调用堆栈，Thread.currentThread().getStackTrace() 方式
-     */
-    public static void addPrintThreadStackTrace(MethodVisitor mv) {
-        // Stream.of(Thread.currentThread().getStackTrace()).forEach(System.out::println);
-        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;", false);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getStackTrace", "()[Ljava/lang/StackTraceElement;", false);
-        mv.visitMethodInsn(INVOKESTATIC, "java/util/stream/Stream", "of", "([Ljava/lang/Object;)Ljava/util/stream/Stream;", true);
-        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        mv.visitInsn(DUP);
-        mv.visitMethodInsn(INVOKESTATIC, "java/util/Objects", "requireNonNull", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
-        mv.visitInsn(POP);
-        mv.visitInvokeDynamicInsn("accept", "(Ljava/io/PrintStream;)Ljava/util/function/Consumer;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("(Ljava/lang/Object;)V"), new Handle(Opcodes.H_INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/Object;)V", false), Type.getType("(Ljava/lang/StackTraceElement;)V")});
-        mv.visitMethodInsn(INVOKEINTERFACE, "java/util/stream/Stream", "forEach", "(Ljava/util/function/Consumer;)V", true);
-    }
-
-    /**
-     * 进入方法之前执行
-     */
     @Override
-    public void visitCode() {
-
-        switch (currMethod) {
-            case "setTitle":
-                doJDialogSetTitleEnter(mv, methodAccess, methodDesc);
-                break;
-            case "<init>": // <init> 为构造方法
-                //doUrlEnter(mv, methodAccess, methodDesc);
-                doValidateKeyEnter(mv, methodAccess, methodDesc);
-                break;
-            case "j":
-                // base64 加密参数处理
-                doBase64BeforeFunEnter(mv, methodAccess, methodDesc);
-                //doMachineIdEnter(mv, methodAccess, methodDesc);
-                break;
-            default:
-                break;
-        }
-
-        // 方法原有逻辑
-        super.visitCode();
-    }
-
-
-    /**
-     * 方法返回之前执行
-     */
-    @Override
-    public void visitInsn(int opcode) {
-        // TODO 方法退出时处理
-        if (opcode == Opcodes.ATHROW || (opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
-            switch (currMethod) {
-                case "j":
-                    //if (doMachineIdEnd(mv, methodAccess, methodDesc)) break;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // 方法原有逻辑
-        super.visitInsn(opcode);
-    }
-
-
-    /**
-     * JDialog setTitle 修改
-     */
-    private boolean doJDialogSetTitleEnter(MethodVisitor mv, int methodAccess, String methodDesc) {
+    public boolean doBeforeJDialogSetTitle(MethodVisitor mv, int methodAccess, String methodDesc) {
 
         if (!methodDesc.equals("(Ljava/lang/String;)V")) return false;
-        System.out.println(">>>> doJDialogSetTitleEnter target methodDesc: " + methodDesc);
+        System.out.println(">>>> doBeforeJDialogSetTitle target methodDesc: " + methodDesc);
 
         // System.out.println(title);
+        Label label1 = new Label();
+        mv.visitLabel(label1);
         mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
         mv.visitVarInsn(ALOAD, 1);
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
@@ -133,39 +46,23 @@ public class MyMethodVisitor extends MethodVisitor {
         Label label4 = new Label();
         mv.visitJumpInsn(IFEQ, label4); // IFEQ 等于0跳转，0-false; 1-true
         mv.visitLabel(label3);
+        // 配置了 ClassWriter.COMPUTE_FRAMES 自动计算
+        //mv.visitFrame(Opcodes.F_APPEND, 1, new Object[]{"java/lang/String"}, 0, null);
         mv.visitTypeInsn(NEW, "java/lang/RuntimeException");
         mv.visitInsn(DUP);
-        mv.visitLdcInsn("Licenses dialog abort.");
-        mv.visitMethodInsn(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "(Ljava/lang/String;)V", false);
+        // TODO 异常信息建议不写，异常信息可能会上报。后续再研究 hook 异常堆栈打印方法，屏蔽添加的手动异常
+        //mv.visitLdcInsn("Licenses dialog abort.");
+        //mv.visitMethodInsn(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "(Ljava/lang/String;)V", false);
+        mv.visitMethodInsn(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "()V", false);
         mv.visitInsn(ATHROW);
         mv.visitLabel(label4);
 
         return true;
     }
 
-    /**
-     * java.net.URL new URL(url) 添加参数打印
-     */
-    private boolean doUrlEnter(MethodVisitor mv, int methodAccess, String methodDesc) {
+    @Override
+    public boolean doBeforeValidateKey(MethodVisitor mv, int methodAccess, String methodDesc) {
 
-        if (!methodDesc.equals("(Ljava/lang/String;)V")) return false;
-        System.out.println(">>>> doUrlEnter target methodDesc: " + methodDesc);
-
-        // 打印调用堆栈
-        //addPrintRuntimeExceptionStackTrace(mv);
-
-        // System.out.println(url);
-        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        mv.visitVarInsn(ALOAD, 1);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
-
-        return true;
-    }
-
-    /**
-     * validateKey.action 验证许可证密钥请求
-     */
-    private boolean doValidateKeyEnter(MethodVisitor mv, int methodAccess, String methodDesc) {
         if (methodDesc.equals("()V")) return false;
         // (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IJ)V
         System.out.println(">>>> doValidateKeyEnter target methodDesc: " + methodDesc);
@@ -183,10 +80,9 @@ public class MyMethodVisitor extends MethodVisitor {
         return true;
     }
 
-    /**
-     * base64 encode 前一个关键处理方法
-     */
-    private boolean doBase64BeforeFunEnter(MethodVisitor mv, int methodAccess, String methodDesc) {
+    @Override
+    public boolean doBeforeBase64Fun(MethodVisitor mv, int methodAccess, String methodDesc) {
+
         // 打印调用堆栈
         //addPrintRuntimeExceptionStackTrace(mv);
 
@@ -276,10 +172,8 @@ public class MyMethodVisitor extends MethodVisitor {
         return true;
     }
 
-    /**
-     * 生成 machineId 进入时调用
-     */
-    private boolean doMachineIdEnter(MethodVisitor mv, int methodAccess, String methodDesc) {
+    @Override
+    public boolean doBeforeMachineId(MethodVisitor mv, int methodAccess, String methodDesc) {
         // 根据 methodDesc 区分重载方法，注意对象类型有“;”
         if (!methodDesc.equals("(II)Ljava/lang/String;")) return false;
         System.out.println(">>>> doMachineIdEnter target methodDesc: " + methodDesc);
@@ -295,28 +189,5 @@ public class MyMethodVisitor extends MethodVisitor {
         return true;
     }
 
-    /**
-     * 生成 machineId 方法返回之前执行
-     */
-    private boolean doMachineIdEnd(MethodVisitor mv, int methodAccess, String methodDesc) {
-        if (!methodDesc.equals("(II)Ljava/lang/String;")) return false;
-        System.out.println(">>>> doMachineIdEnd target methodDesc: " + methodDesc);
 
-        // 打印返回值
-        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        mv.visitVarInsn(ALOAD, 6); // ALOAD 的 index 从反编译的 smali 代码查看
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
-
-        // 修改返回值
-        mv.visitMethodInsn(INVOKESTATIC, "java/util/UUID", "randomUUID", "()Ljava/util/UUID;", false);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/UUID", "toString", "()Ljava/lang/String;", false);
-        mv.visitVarInsn(ASTORE, 6);
-
-        // 打印修改后的值
-        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        mv.visitVarInsn(ALOAD, 6);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
-
-        return true;
-    }
 }

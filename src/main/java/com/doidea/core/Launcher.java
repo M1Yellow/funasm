@@ -1,7 +1,5 @@
 package com.doidea.core;
 
-import com.doidea.core.domain.MyClassFileTransformer;
-
 import java.lang.instrument.Instrumentation;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,7 +21,6 @@ public class Launcher {
         // 无感知自动去掉 License 许可证到期时的弹窗，不退出程序，继续试用
         targetClassMethodMap.put("com." + "intel" + "lij" + ".openapi.ui.DialogWrapper", Arrays.asList("setTitle"));
         /*
-        //targetClassMethodMap.put("java.net.URL", Arrays.asList("<init>")); // 没有加载这个类
         // TODO 获取试用许可只会请求一次，验证许可密钥每次启动都会请求
         // obtainAnonTrial.action/validateKey.action 请求参数：hostName、userName，在 base64 encode 之前，还处理了一次
         // invokestatic com/jetbrains/t/t/ji j ([BJ)[B

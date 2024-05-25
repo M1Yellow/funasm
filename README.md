@@ -4,7 +4,12 @@
 
 可应用在 IDEA 30 天试用到期后，自动去掉 Licenses（许可证）弹窗，达到【无限试用】的效果。（改系统时间，或者先试用，再移除试用许可证，不用真等 30 天）
 
-目前仅短期测试了 `IDEA 2023.3.6`、`IDEA 2024.1.1` 版本正常使用，其他开发工具/版本请自行修改测试。
+目前仅短期测试了以下版本正常使用，其他开发工具/版本请自行修改测试。
+- IDEA 2023.3.6
+- IDEA 2024.1.1
+- IDEA 2024.1.2
+
+
 
 本项目**仅供技术参考学习**！有条件的**请支持正版**或申请优惠渠道！
 
@@ -40,6 +45,8 @@
 
 - [Jexbraxxs系列破解思路的详细实现步骤探索](https://www.52pojie.cn/thread-1921814-1-1.html)
 - [JexBraxxs 全家桶系列 2024 破解思路](https://www.52pojie.cn/thread-1919098-1-1.html)
+- [通过实战走近Java Agent探针技术](https://juejin.cn/post/7025410644463583239)
+- [ASM 官网](https://asm.ow2.io/)
 - [Java ASM系列](https://lsieun.github.io/java/asm/)
 - [javaagent+asm破解cexxum](https://www.cnblogs.com/alinainai/p/12188496.html)
 
