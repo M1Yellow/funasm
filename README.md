@@ -43,14 +43,11 @@
 
 ## 参考
 
-- [Jexbraxxs系列破解思路的详细实现步骤探索](https://www.52pojie.cn/thread-1921814-1-1.html)
-- [JexBraxxs 全家桶系列 2024 破解思路](https://www.52pojie.cn/thread-1919098-1-1.html)
-- [通过实战走近Java Agent探针技术](https://juejin.cn/post/7025410644463583239)
 - [ASM 官网](https://asm.ow2.io/)
 - [Java ASM系列](https://lsieun.github.io/java/asm/)
+- [通过实战走近Java Agent探针技术](https://juejin.cn/post/7025410644463583239)
+- [Jexbraxxs系列破解思路的详细实现步骤探索](https://www.52pojie.cn/thread-1921814-1-1.html)
+- [JexBraxxs 全家桶系列 2024 破解思路](https://www.52pojie.cn/thread-1919098-1-1.html)
 - [javaagent+asm破解cexxum](https://www.cnblogs.com/alinainai/p/12188496.html)
 
-
-
 <br/>
-
