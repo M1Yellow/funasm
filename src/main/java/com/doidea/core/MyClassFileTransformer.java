@@ -1,5 +1,6 @@
 package com.doidea.core;
 
+import com.doidea.core.bo.TargetMethod;
 import jdk.internal.org.objectweb.asm.ClassReader;
 import jdk.internal.org.objectweb.asm.ClassVisitor;
 import jdk.internal.org.objectweb.asm.ClassWriter;
@@ -20,7 +21,7 @@ public class MyClassFileTransformer implements ClassFileTransformer {
 
         //System.out.println(">>>> loading Class: " + className); // xxx/xxxx/xxx 格式
         String targetClassName = className.replace("/", "."); // targetClass 为 xxx.xxxx.xxx$xxx 格式
-        List<String> targetMethods = Launcher.targetClassMethodMap.get(targetClassName);
+        List<TargetMethod> targetMethods = Launcher.targetClassMethodMap.get(targetClassName);
         if (targetMethods == null || targetMethods.isEmpty())
             return classfileBuffer;
 

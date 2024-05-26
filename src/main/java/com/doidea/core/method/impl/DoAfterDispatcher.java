@@ -10,9 +10,11 @@ public enum DoAfterDispatcher implements DoAfter {
     INSTANCE;
 
     @Override
-    public boolean doAfterMachineId(MethodVisitor mv, int methodAccess, String methodDesc) {
+    public boolean doAfterMachineId(Object methodVisitor, int methodAccess, String methodDesc) {
         if (!methodDesc.equals("(II)Ljava/lang/String;")) return false;
         System.out.println(">>>> doMachineIdEnd target methodDesc: " + methodDesc);
+
+        MethodVisitor mv = (MethodVisitor) methodVisitor;
 
         // 打印返回值
         mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");

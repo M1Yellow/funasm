@@ -19,10 +19,7 @@ public enum DoRewriteDispatcher implements DoRewrite {
      * userName 取的是系统当前用户名，【只改用户名】，可以获取新的试用许可，但为了稳妥起见，machineId 最好也一起改
      */
     @Override
-    public boolean doRewriteMachineId(MethodVisitor mv, int methodAccess, String methodDesc) {
-        // 根据 methodDesc 区分重载方法，注意对象类型有“;”
-        if (!methodDesc.equals("(II)Ljava/lang/String;")) return false;
-        System.out.println(">>>> doMachineIdNew target methodDesc: " + methodDesc);
+    public boolean doRewriteMachineId(Object methodVisitor, int methodAccess, String methodDesc) {
 
         // 方法参数和返回值类型
         Type t = Type.getType(methodDesc);
@@ -36,6 +33,8 @@ public enum DoRewriteDispatcher implements DoRewrite {
             localSize += argType.getSize();
         }
         int stackSize = returnType.getSize();
+
+        MethodVisitor mv = (MethodVisitor) methodVisitor;
 
         // 打印入参
         mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");

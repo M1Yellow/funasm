@@ -13,10 +13,12 @@ public enum DoBeforeDispatcher implements DoBefore {
     INSTANCE;
 
     @Override
-    public boolean doBeforeJDialogSetTitle(MethodVisitor mv, int methodAccess, String methodDesc) {
+    public boolean doBeforeJDialogSetTitle(Object methodVisitor, int methodAccess, String methodDesc) {
 
-        if (!methodDesc.equals("(Ljava/lang/String;)V")) return false;
-        System.out.println(">>>> doBeforeJDialogSetTitle target methodDesc: " + methodDesc);
+        // 打印调用堆栈
+        //addPrintRuntimeExceptionStackTrace(mv);
+
+        MethodVisitor mv = (MethodVisitor) methodVisitor;
 
         // System.out.println(title);
         Label label1 = new Label();
@@ -61,11 +63,9 @@ public enum DoBeforeDispatcher implements DoBefore {
     }
 
     @Override
-    public boolean doBeforeValidateKey(MethodVisitor mv, int methodAccess, String methodDesc) {
+    public boolean doBeforeValidateKey(Object methodVisitor, int methodAccess, String methodDesc) {
 
-        if (methodDesc.equals("()V")) return false;
-        // (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IJ)V
-        System.out.println(">>>> doValidateKeyEnter target methodDesc: " + methodDesc);
+        MethodVisitor mv = (MethodVisitor) methodVisitor;
 
         // 打印调用堆栈
         //addPrintRuntimeExceptionStackTrace(mv);
@@ -81,15 +81,9 @@ public enum DoBeforeDispatcher implements DoBefore {
     }
 
     @Override
-    public boolean doBeforeBase64Fun(MethodVisitor mv, int methodAccess, String methodDesc) {
+    public boolean doBeforeBase64Fun(Object methodVisitor, int methodAccess, String methodDesc) {
 
-        // 打印调用堆栈
-        //addPrintRuntimeExceptionStackTrace(mv);
-
-        //System.out.println(">>>> methodDesc: " + methodDesc);
-        // 根据 methodDesc 区分重载方法
-        if (!methodDesc.equals("([BJ)[B")) return false;
-        System.out.println(">>>> doBase64BeforeFunEnter target methodDesc: " + methodDesc);
+        MethodVisitor mv = (MethodVisitor) methodVisitor;
 
         // 打印参数
         mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
@@ -173,10 +167,9 @@ public enum DoBeforeDispatcher implements DoBefore {
     }
 
     @Override
-    public boolean doBeforeMachineId(MethodVisitor mv, int methodAccess, String methodDesc) {
-        // 根据 methodDesc 区分重载方法，注意对象类型有“;”
-        if (!methodDesc.equals("(II)Ljava/lang/String;")) return false;
-        System.out.println(">>>> doMachineIdEnter target methodDesc: " + methodDesc);
+    public boolean doBeforeMachineId(Object methodVisitor, int methodAccess, String methodDesc) {
+
+        MethodVisitor mv = (MethodVisitor) methodVisitor;
 
         // 打印入参
         mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");

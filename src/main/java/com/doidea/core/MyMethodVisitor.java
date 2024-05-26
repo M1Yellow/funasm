@@ -18,11 +18,11 @@ public class MyMethodVisitor extends MethodVisitor {
     private final String methodDesc;
 
 
-    public MyMethodVisitor(int api, MethodVisitor mv, String targetMethod, int access, String descriptor) {
+    public MyMethodVisitor(int api, MethodVisitor mv, String targetMethod, int methodAccess, String methodDesc) {
         super(api, mv);
         this.targetMethod = targetMethod;
-        this.methodAccess = access;
-        this.methodDesc = descriptor;
+        this.methodAccess = methodAccess;
+        this.methodDesc = methodDesc;
     }
 
 

@@ -28,6 +28,7 @@
                     <compilerArgs>
                         <!-- 解决 Maven package 打包，程序包 jdk.internal.org.objectweb.asm 不可见 -->
                         <arg>--add-exports=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED</arg>
+                        <arg>--add-exports=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED</arg>
                     </compilerArgs>
                     <compilerArguments>
                         <!--<verbose/>-->
