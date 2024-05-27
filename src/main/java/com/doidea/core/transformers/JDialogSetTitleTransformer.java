@@ -7,7 +7,7 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
 /**
  * Licenses（许可证）弹窗设置标题方法修改
  */
-public class JDialogSetTitleTransformer implements MyTransformer {
+public class JDialogSetTitleTransformer implements IMyTransformer {
 
 
     @Override

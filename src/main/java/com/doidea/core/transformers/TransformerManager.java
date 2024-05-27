@@ -19,9 +19,9 @@ public class TransformerManager {
         // Licenses（许可证）弹窗设置标题方法修改
         dispatcher.addTransformer(new JDialogSetTitleTransformer());
         // obtainAnonTrial.action/validateKey.action 请求参数 userName 修改
-        //dispatcher.addTransformer(new UserNameTransformer());
+        //dispatcher.addTransformer(new ParamUserNameTransformer());
         // obtainAnonTrial.action/validateKey.action 请求参数 machineId 修改
-        //dispatcher.addTransformer(new MachineIdTransformer());
+        //dispatcher.addTransformer(new ParamMachineIdTransformer());
         // validateKey.action 验证许可证密钥请求方法修改
         //dispatcher.addTransformer(new ValidateKeyRequestTransformer());
     }

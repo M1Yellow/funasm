@@ -8,7 +8,7 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
  * obtainAnonTrial.action/validateKey.action 请求参数 machineId 修改
  * 跟修改用户名一起搭配，避免一个机器有无数个用户名
  */
-public class MachineIdTransformer implements MyTransformer {
+public class ParamMachineIdTransformer implements IMyTransformer {
 
 
     @Override

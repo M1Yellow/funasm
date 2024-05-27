@@ -2,7 +2,7 @@ package com.doidea.core.transformers;
 
 import java.security.ProtectionDomain;
 
-public interface MyTransformer {
+public interface IMyTransformer {
 
     String getTargetClassName();
 

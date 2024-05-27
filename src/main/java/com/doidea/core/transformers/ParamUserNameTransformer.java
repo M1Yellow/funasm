@@ -9,7 +9,7 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
  * 原本方法获取的是计算机当前用户名称，修改为自定义名称
  * 测试修改用户名后，即可再次获取到 30 的试用时间
  */
-public class UserNameTransformer implements MyTransformer {
+public class ParamUserNameTransformer implements IMyTransformer {
 
     @Override
     public String getTargetClassName() {

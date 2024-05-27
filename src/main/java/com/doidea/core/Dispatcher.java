@@ -1,6 +1,6 @@
 package com.doidea.core;
 
-import com.doidea.core.transformers.MyTransformer;
+import com.doidea.core.transformers.IMyTransformer;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -16,26 +16,26 @@ public class Dispatcher implements ClassFileTransformer {
     /**
      * 目标类文件转换器
      */
-    private final Map<String, List<MyTransformer>> transformerMap = new HashMap<>();
+    private final Map<String, List<IMyTransformer>> transformerMap = new HashMap<>();
 
 
-    public void addTransformer(MyTransformer transformer) {
+    public void addTransformer(IMyTransformer transformer) {
         if (null == transformer) return;
         synchronized (this) {
             String className = transformer.getTargetClassName().replace('/', '.');
             this.classSet.add(className);
-            List<MyTransformer> transformers = this.transformerMap.computeIfAbsent(className, k -> new ArrayList<>());
+            List<IMyTransformer> transformers = this.transformerMap.computeIfAbsent(className, k -> new ArrayList<>());
             transformers.add(transformer);
         }
     }
 
-    public void addTransformers(List<MyTransformer> transformers) {
+    public void addTransformers(List<IMyTransformer> transformers) {
         if (null == transformers) return;
-        for (MyTransformer transformer : transformers)
+        for (IMyTransformer transformer : transformers)
             addTransformer(transformer);
     }
 
-    public void addTransformers(MyTransformer[] transformers) {
+    public void addTransformers(IMyTransformer[] transformers) {
         if (null == transformers) return;
         addTransformers(Arrays.asList(transformers));
     }
@@ -50,14 +50,14 @@ public class Dispatcher implements ClassFileTransformer {
         if (null == className || className.isBlank()) return classfileBuffer;
         //System.out.println(">>>> loading Class: " + className); // xxx/xxxx/xxx 格式
         String targetClassName = className.replace("/", "."); // targetClass 为 xxx.xxxx.xxx$xxx 格式
-        List<MyTransformer> transformers = this.transformerMap.get(targetClassName);
+        List<IMyTransformer> transformers = this.transformerMap.get(targetClassName);
         if (null == transformers || transformers.isEmpty()) return classfileBuffer;
         // 命中目标类
         System.out.println(">>>> Target Class: " + targetClassName);
 
         int order = 0;
         try {
-            for (MyTransformer transformer : transformers) {
+            for (IMyTransformer transformer : transformers) {
                 classfileBuffer = transformer.transform(loader, classBeingRedefined, protectionDomain, targetClassName, classfileBuffer, order++);
             }
         } catch (Throwable e) {

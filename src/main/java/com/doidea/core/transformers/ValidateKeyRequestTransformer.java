@@ -10,7 +10,7 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
 /**
  * validateKey.action 验证许可证密钥请求方法修改
  */
-public class ValidateKeyRequestTransformer implements MyTransformer {
+public class ValidateKeyRequestTransformer implements IMyTransformer {
 
 
     @Override
