@@ -23,7 +23,7 @@
 2. 下载部署 Oracle JDK 17 / Open JDK 17 环境
 3. 下载配置 Maven 3.6.3 （或更高版本）
 4. `git clone url` 克隆项目到本地
-5. IDEA 打开项目（打开 doidea 文件夹即可），Maven package 打包
+5. IDEA 打开项目（打开 `doidea-asm` 文件夹即可），Maven package 打包
 6. target 目录下的 `doidea-asm-1.0.0.jar` 为可用 jar 包，复制到一个目录，比如：`E:\DevRes\doidea`
 7. `idea64.exe.vmoptions` 添加以下 3 条配置，即可生效
    1. -javaagent:E:\DevRes\doidea\doidea-asm-1.0.0.jar
