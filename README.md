@@ -1,6 +1,6 @@
 ## 说明
 
-使用 `Javaagent` + `ASM` 实现动态修改类方法。ASM 使用 JDK 自带的版本，无需引入其他依赖，大幅减小 jar 包文件大小。
+使用 `Javaagent` + `ASM` 实现无侵入动态修改类方法。ASM 使用 JDK 自带的版本，无需引入其他依赖，大幅减小 jar 包文件大小。
 
 可应用在 IDEA 30 天试用到期后，自动去掉 Licenses（许可证）弹窗，达到【无限试用】的效果。（改系统时间，或者先试用，再移除试用许可证，不用真等 30 天）
 
@@ -46,6 +46,7 @@
 - [ASM 官网](https://asm.ow2.io/)
 - [Java ASM系列](https://lsieun.github.io/java/asm/)
 - [通过实战走近Java Agent探针技术](https://juejin.cn/post/7025410644463583239)
+- [字节码增强技术探索](https://tech.meituan.com/2019/09/05/java-bytecode-enhancement.html)
 - [Jexbraxxs系列破解思路的详细实现步骤探索](https://www.52pojie.cn/thread-1921814-1-1.html)
 - [JexBraxxs 全家桶系列 2024 破解思路](https://www.52pojie.cn/thread-1919098-1-1.html)
 - [javaagent+asm破解cexxum](https://www.cnblogs.com/alinainai/p/12188496.html)
