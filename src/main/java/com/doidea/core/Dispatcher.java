@@ -53,16 +53,17 @@ public class Dispatcher implements ClassFileTransformer {
         List<IMyTransformer> transformers = this.transformerMap.get(targetClassName);
         if (null == transformers || transformers.isEmpty()) return classfileBuffer;
         // 命中目标类
-        System.out.println(">>>> Target Class: " + targetClassName);
+        System.out.println(">>>> Target Class: " + className);
+        System.out.println(">>>> Target ClassLoader: " + loader.toString()); // toString() -> PathClassLoader；getName() -> null
 
         int order = 0;
         try {
             for (IMyTransformer transformer : transformers) {
-                classfileBuffer = transformer.transform(loader, classBeingRedefined, protectionDomain, targetClassName, classfileBuffer, order++);
+                classfileBuffer = transformer.transform(loader, classBeingRedefined, protectionDomain, className, classfileBuffer, order++);
             }
         } catch (Throwable e) {
             System.err.println(">>>> Transform class error: " + e.getMessage());
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         return classfileBuffer;
