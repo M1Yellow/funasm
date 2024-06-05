@@ -14,7 +14,8 @@ public class AsmTest {
         String title = "Licenses";
         System.out.println(title);
         // title = title.trim(); // 尽可能不改动原 title
-        if (title.trim().equalsIgnoreCase("Licenses") || title.trim().equalsIgnoreCase("许可证")) {
+        if (title.trim().equalsIgnoreCase("Licenses") || title.trim().equalsIgnoreCase("许可证")
+                || title.trim().contains("trial has expired") || title.trim().contains("试用已到期")) {
             throw new RuntimeException();
         }
     }

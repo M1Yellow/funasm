@@ -33,10 +33,20 @@
 
 <br/>
 
+**ASM 相关代码报错问题**
+
 > - 在 XxxTransformer 类文件中 `import jdk.internal.org.objectweb.asm.*;` 可能会报错，但不影响 Maven package 打包
 > - 在 `import jdk.internal.org.objectweb.asm.*;` 这一行，按 `Alt + Enter`，选择 `--add-exports java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED` 添加到模块编译器选项，即可不报错
 > - 也可以到 `文件-设置-构建、执行、部署-编译器-Java编译器` 最下方的 `模块-编译选项` 中手动配置
 
+<br/>
+
+**试用到期后会出现一个“试用已到期”提示弹窗，关联了后续的许可证弹窗**
+
+> 去掉这个试用到期提示弹窗解决方案：
+> - 最开始就不点试用，直接用这个工具；
+> - 点了试用，但还没到期，先去移除试用许可就行了；
+> - **试用了且到期了**，删除 C:\Users\xxx\AppData\Roaming\JetBrains\IntelliJIdea2024.1\idea.key 这个文件即可
 
 
 <br/>
