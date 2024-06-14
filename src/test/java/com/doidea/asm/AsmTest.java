@@ -10,18 +10,15 @@ public class AsmTest {
         //Stream.of(Thread.currentThread().getStackTrace()).forEach(System.out::println);
         //new RuntimeException(">>>> Print stacktrace: \n").printStackTrace();
         //System.out.println(UUID.randomUUID().toString()); // 1d1d4ae4-6718-442f-80a0-9006d48dc3f7
+        //testShowDialog(null, null, "Your IntelliJ IDEA trial has expired");
+        //new JDialog().setTitle("Licenses");
 
         String title = "Licenses";
-        System.out.println(title);
         // title = title.trim(); // 尽可能不改动原 title
-        if (title.trim().equalsIgnoreCase("Licenses") || title.trim().equalsIgnoreCase("许可证")
-                || title.trim().contains("trial has expired") || title.trim().contains("试用已到期")) {
+        if (title.trim().equalsIgnoreCase("Licenses") || title.trim().equalsIgnoreCase("许可证")) {
+            System.out.println(title);
             throw new RuntimeException();
         }
-
-
-        testShowDialog(null, null, "Your IntelliJ IDEA trial has expired");
-
     }
 
     public static byte[] testUserName(byte[] bArr, long j) {

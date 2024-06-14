@@ -12,8 +12,7 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
  * 消息弹窗方法修改
  */
 public class MessagesShowDialogTransformer implements IMyTransformer {
-
-
+    
     @Override
     public String getTargetClassName() {
         return "com." + "intel" + "lij" + ".openapi.ui.Messages";

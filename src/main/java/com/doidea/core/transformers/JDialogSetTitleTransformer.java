@@ -11,10 +11,10 @@ import static jdk.internal.org.objectweb.asm.Opcodes.*;
  */
 public class JDialogSetTitleTransformer implements IMyTransformer {
 
-
     @Override
     public String getTargetClassName() {
-        return "com." + "intel" + "lij" + ".openapi.ui.DialogWrapper";
+        return "com." + "intel" + "lij" + ".openapi.ui.DialogWrapper"; // Dialog 的封装类
+        //return "java.awt.Dialog"; // 直接修改 Dialog 本尊，更具有通用性。ASM Tree API 会出现循环依赖问题：java.lang.ClassCircularityError: java/awt/Dialog
     }
 
     @Override
@@ -48,29 +48,27 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
                 System.out.println(">>>> Target method descriptor: " + mn.desc);
 
                 InsnList insnList = new InsnList();
-                insnList.add(new FieldInsnNode(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
                 insnList.add(new VarInsnNode(ALOAD, 1)); // 非静态方法，0-this；1-第一个参数；依次类推。静态方法，0-第一个参数；1-第二个；依次类推
-                insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
-                insnList.add(new VarInsnNode(ALOAD, 1));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;", false));
                 insnList.add(new LdcInsnNode("Licenses"));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false));
-                LabelNode label3 = new LabelNode();
-                insnList.add(new JumpInsnNode(IFNE, label3)); // IFNE 不等于0跳转，0-false; 1-true
+                LabelNode label0 = new LabelNode();
+                insnList.add(new JumpInsnNode(IFNE, label0)); // IFNE 不等于0跳转，0-false; 1-true
                 insnList.add(new VarInsnNode(ALOAD, 1));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;", false));
                 insnList.add(new LdcInsnNode("许可证"));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false));
-                LabelNode label4 = new LabelNode();
-                insnList.add(new JumpInsnNode(IFEQ, label4)); // IFEQ 等于0跳转，0-false; 1-true
-                insnList.add(label3);
-                // COMPUTE_FRAMES 自动计算
-                //insnList.add(new FrameNode(F_APPEND, 1, new Object[]{"java/lang/String"}, 0, null));
+                LabelNode label1 = new LabelNode();
+                insnList.add(new JumpInsnNode(IFEQ, label1)); // IFEQ 等于0跳转，0-false; 1-true
+                insnList.add(label0);
+                insnList.add(new FieldInsnNode(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
+                insnList.add(new VarInsnNode(ALOAD, 1));
+                insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
                 insnList.add(new TypeInsnNode(NEW, "java/lang/RuntimeException"));
                 insnList.add(new InsnNode(DUP));
                 insnList.add(new MethodInsnNode(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "()V", false));
                 insnList.add(new InsnNode(ATHROW));
-                insnList.add(label4);
+                insnList.add(label1);
 
                 // 在方法开始前加入指令集
                 mn.instructions.insert(insnList);
@@ -80,6 +78,7 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
         //ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         // TODO MyClassWriter 重写了 ClassWriter.getCommonSuperClass()，避免 ClassNotFoundException TypeNotPresentException
         ClassWriter cw = new MyClassWriter(cr, ClassWriter.COMPUTE_FRAMES, loader); // COMPUTE_FRAMES 自动计算 max stacks、max locals 和 stack map frame
+        //ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_FRAMES);
         cn.accept(cw);
         return cw.toByteArray();
     }
@@ -137,44 +136,34 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
          */
         @Override
         public void visitCode() {
-            // System.out.println(title);
-            Label label1 = new Label();
-            mv.visitLabel(label1);
-            mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-            mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
-
             /*
             // title = title.trim(); // 尽可能不改动原 title
             if (title.trim().equalsIgnoreCase("Licenses") || title.trim().equalsIgnoreCase("许可证")) {
-                throw new RuntimeException("Licenses dialog abort.");
+                System.out.println(title);
+                throw new RuntimeException();
             }
             */
-            Label label2 = new Label();
-            mv.visitLabel(label2);
             mv.visitVarInsn(ALOAD, 1);
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;", false);
             mv.visitLdcInsn("Licenses");
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false);
-            Label label3 = new Label();
-            mv.visitJumpInsn(IFNE, label3); // IFNE 不等于0跳转，0-false; 1-true
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFNE, label0); // IFNE 不等于0跳转，0-false; 1-true
             mv.visitVarInsn(ALOAD, 1);
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;", false);
             mv.visitLdcInsn("许可证");
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false);
-            Label label4 = new Label();
-            mv.visitJumpInsn(IFEQ, label4); // IFEQ 等于0跳转，0-false; 1-true
-            mv.visitLabel(label3);
-            // 配置了 ClassWriter.COMPUTE_FRAMES 自动计算
-            //mv.visitFrame(Opcodes.F_APPEND, 1, new Object[]{"java/lang/String"}, 0, null);
+            Label label1 = new Label();
+            mv.visitJumpInsn(IFEQ, label1); // IFEQ 等于0跳转，0-false; 1-true
+            mv.visitLabel(label0);
+            mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
             mv.visitTypeInsn(NEW, "java/lang/RuntimeException");
             mv.visitInsn(DUP);
-            // TODO 异常信息建议不写，异常信息可能会上报。后续再研究 hook 异常堆栈打印方法，屏蔽添加的手动异常
-            //mv.visitLdcInsn("Licenses dialog abort.");
-            //mv.visitMethodInsn(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "(Ljava/lang/String;)V", false);
             mv.visitMethodInsn(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "()V", false);
             mv.visitInsn(ATHROW);
-            mv.visitLabel(label4);
+            mv.visitLabel(label1);
 
             // 方法原有逻辑
             super.visitCode();

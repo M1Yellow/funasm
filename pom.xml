@@ -17,6 +17,14 @@
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>images/*.*</exclude><!-- 打包排除 images -->
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
@@ -69,5 +77,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
