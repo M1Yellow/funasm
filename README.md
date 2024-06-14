@@ -19,7 +19,7 @@
 ## 使用
 
 1. 官网下载对应版本的 IDEA，建议下载压缩包版本
-2. 下载部署 Oracle JDK 17 / Open JDK 17 环境，或者直接用 IDEA 自带的 Open JDK 17
+2. 下载部署 Oracle JDK 17 / Open JDK 17 环境，或者直接使用 IDEA 自带的 Open JDK 17
 3. 下载配置 Maven 3.6.3 （或更高版本）
 4. `git clone url` 克隆项目到本地
 5. IDEA 打开项目（打开 `doidea-asm` 文件夹即可），Maven package 打包
@@ -51,16 +51,16 @@
 
 **怎样找到要修改的关键位置？**
 
-> 1. 找到裂缝：就是开始下手的地方，从这里打开程序内部的世界
-> 2. 插桩打日志：从裂缝定位到关键方法，在方法执行前打印调用堆栈(new RuntimeException().printStackTrace();)
+> 1. 找到裂缝：也就是BUG漏洞，从这里打开程序内部的世界
+> 2. 插桩打印日志：从裂缝定位到关键方法，在方法执行前打印调用堆栈(new RuntimeException().printStackTrace();)
 > 3. 看日志定位关键：在 `C:\Users\xxx\AppData\Local\JetBrains\IntelliJIdea2024.x\log\idea.log` 日志文件中，查看调用堆栈，找到关键类和方法
-> 4. 类文件在哪个jar包：在 IDEA 安装目录的 lib 目录下，可以逐个用压缩软件打开查看包名路径；也可以先把 lib 下的所有 jar 包都解压，然后用 everything 搜索 `类名.class`
+> 4. 类文件在哪个jar包：在 IDEA 安装目录的 lib 目录下，可以逐个用压缩软件打开查看对应包名路径；也可以先把 lib 下的所有 jar 包都解压，然后用 everything 搜索 `类名.class`
 > 5. jadx反编译jar包：把目标 jar 包用 jadx 反编译，根据包名路径找到关键类，然后根据日志堆栈中的行号找到具体的方法，就可以正式开始琢磨修改了
 > 6. 温馨提示：研究折腾很容易废寝忘食，熬夜通宵、黑白颠倒，对身体很不好！！
 
 <br/>
 
-**找到裂缝 -> 无限可能 👇**
+**找到裂缝 -> 无限可能 🔍**
 
 ![找到破解的裂缝](src/main/resources/images/找到破解的裂缝.png)
 
@@ -70,7 +70,7 @@
 
 ![墙缝-大树-裂缝-无限可能-2](src/main/resources/images/墙缝-大树-裂缝-无限可能-2.jpg)
 
-（广州越秀公园明代古城墙）
+（广州越秀公园古城墙上的🌳）
 
 
 
