@@ -61,7 +61,7 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
                 LabelNode label1 = new LabelNode();
                 insnList.add(new JumpInsnNode(IFEQ, label1)); // IFEQ 等于0跳转，0-false; 1-true
                 insnList.add(label0);
-                insnList.add(new FieldInsnNode(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
+                insnList.add(new FieldInsnNode(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
                 insnList.add(new VarInsnNode(ALOAD, 1));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
                 insnList.add(new TypeInsnNode(NEW, "java/lang/RuntimeException"));

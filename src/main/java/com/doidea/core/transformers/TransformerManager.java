@@ -26,5 +26,7 @@ public class TransformerManager {
         //dispatcher.addTransformer(new ParamMachineIdTransformer());
         // validateKey.action 验证许可证密钥请求方法修改
         //dispatcher.addTransformer(new ValidateKeyRequestTransformer());
+        // 去掉 validateKey.action 请求
+        //dispatcher.addTransformer(new HttpClientTransformer());
     }
 }

@@ -54,9 +54,9 @@ public class Dispatcher implements ClassFileTransformer {
         if (null == transformers || transformers.isEmpty()) return classfileBuffer;
         // 命中目标类
         System.out.println(">>>> Target Class: " + className);
-        // TODO may be null if the bootstrap loader 启动类加载器加载的类，loader 为 null。比如：java/awt/Dialog
-        String loaderName = (null == loader) ? "bootstrap" : loader.toString(); // toString() -> PathClassLoader；getName() -> null
-        System.out.println(">>>> Target ClassLoader: " + loaderName);
+        // TODO may be null if the bootstrap loader 启动类加载器加载的核心类，loader 为 null。比如：java.lang.String、java.awt.Dialog
+        if (null == loader) loader = ClassLoader.getSystemClassLoader().getParent();
+        System.out.println(">>>> Target ClassLoader: " + loader.toString()); // toString() -> PathClassLoader；getName() -> null
 
         int order = 0; // 自定义 transform 执行顺序，暂未使用
         try {

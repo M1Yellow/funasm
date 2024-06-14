@@ -55,7 +55,7 @@ public class ParamMachineIdTransformer implements IMyTransformer {
             Type returnType = t.getReturnType();
 
             // 计算 locals 和 stack 栈大小
-            boolean isStaticMethod = ((access & Opcodes.ACC_STATIC) != 0);
+            boolean isStaticMethod = ((access & ACC_STATIC) != 0);
             int localSize = isStaticMethod ? 0 : 1;
             for (Type argType : argumentTypes) {
                 localSize += argType.getSize();

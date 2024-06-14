@@ -119,7 +119,7 @@ public class ParamUserNameTransformer implements IMyTransformer {
             mv.visitLabel(label6);
             mv.visitVarInsn(ILOAD, 4);
             mv.visitVarInsn(ILOAD, 5);
-            mv.visitInvokeDynamicInsn("makeConcatWithConstants", "(II)Ljava/lang/String;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/StringConcatFactory", "makeConcatWithConstants", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;", false), new Object[]{"MAC-\u0001\u000114"});
+            mv.visitInvokeDynamicInsn("makeConcatWithConstants", "(II)Ljava/lang/String;", new Handle(H_INVOKESTATIC, "java/lang/invoke/StringConcatFactory", "makeConcatWithConstants", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;", false), new Object[]{"MAC-\u0001\u000114"});
             mv.visitVarInsn(ASTORE, 7);
             Label label7 = new Label();
             mv.visitLabel(label7);
@@ -131,10 +131,10 @@ public class ParamUserNameTransformer implements IMyTransformer {
             mv.visitLabel(label9);
             mv.visitVarInsn(ILOAD, 4);
             mv.visitVarInsn(ILOAD, 5);
-            mv.visitInvokeDynamicInsn("makeConcatWithConstants", "(II)Ljava/lang/String;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/StringConcatFactory", "makeConcatWithConstants", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;", false), new Object[]{"MAC-\u0001\u000128"});
+            mv.visitInvokeDynamicInsn("makeConcatWithConstants", "(II)Ljava/lang/String;", new Handle(H_INVOKESTATIC, "java/lang/invoke/StringConcatFactory", "makeConcatWithConstants", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;", false), new Object[]{"MAC-\u0001\u000128"});
             mv.visitVarInsn(ASTORE, 7);
             mv.visitLabel(label8);
-            mv.visitFrame(Opcodes.F_FULL, 7, new Object[]{"[B", Opcodes.LONG, "java/time/LocalDateTime", Opcodes.INTEGER, Opcodes.INTEGER, Opcodes.INTEGER, "java/lang/String"}, 0, new Object[]{});
+            mv.visitFrame(Opcodes.F_FULL, 7, new Object[]{"[B", Opcodes.LONG, "java/time/LocalDateTime", INTEGER, INTEGER, INTEGER, "java/lang/String"}, 0, new Object[]{});
             mv.visitVarInsn(ALOAD, 7);
             mv.visitFieldInsn(GETSTATIC, "java/nio/charset/StandardCharsets", "UTF_8", "Ljava/nio/charset/Charset;");
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "getBytes", "(Ljava/nio/charset/Charset;)[B", false);
