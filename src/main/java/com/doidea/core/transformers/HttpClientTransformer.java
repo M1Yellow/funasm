@@ -23,7 +23,7 @@ public class HttpClientTransformer implements IMyTransformer {
         try {
             newByte = getAsmTreeBytes(loader, className, classBytes);
         } catch (Throwable e) {
-            System.err.println(">>>> MessagesShowDialogTransformer getAsmTreeBytes error: " + e.getMessage());
+            System.err.println(">>>> HttpClientTransformer getAsmTreeBytes error: " + e.getMessage());
             e.printStackTrace();
         }
         return newByte;
@@ -42,6 +42,12 @@ public class HttpClientTransformer implements IMyTransformer {
                 System.out.println(">>>> Target method descriptor: " + mn.desc);
 
                 InsnList insnList = new InsnList();
+                insnList.add(new VarInsnNode(ALOAD, 0));
+                insnList.add(new FieldInsnNode(GETFIELD, "sun/net/www/http/HttpClient", "url", "Ljava/net/URL;"));
+                insnList.add(new MethodInsnNode(INVOKESTATIC, "com/doidea/core/filters/URLFilter", "testURL", "(Ljava/net/URL;)Ljava/net/URL;", false));
+                insnList.add(new InsnNode(POP));
+
+                /*
                 insnList.add(new VarInsnNode(ALOAD, 0)); // 0-this 对象本身
                 insnList.add(new FieldInsnNode(GETFIELD, "sun/net/www/http/HttpClient", "url", "Ljava/net/URL;"));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/net/URL", "toString", "()Ljava/lang/String;", false));
@@ -56,9 +62,10 @@ public class HttpClientTransformer implements IMyTransformer {
                 insnList.add(new JumpInsnNode(IFEQ, label1)); // IFEQ 等于0跳转，0-false; 1-true
                 insnList.add(new TypeInsnNode(NEW, "java/net/SocketTimeoutException"));
                 insnList.add(new InsnNode(DUP));
-                insnList.add(new MethodInsnNode(INVOKESPECIAL, "java/lang/RuntimeException", "<init>", "()V", false));
+                insnList.add(new MethodInsnNode(INVOKESPECIAL, "java/lang/SocketTimeoutException", "<init>", "()V", false));
                 insnList.add(new InsnNode(ATHROW));
                 insnList.add(label1);
+                */
 
                 // 在方法开始前加入指令集
                 mn.instructions.insert(insnList);
