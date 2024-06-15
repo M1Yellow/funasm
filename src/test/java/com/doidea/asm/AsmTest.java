@@ -1,7 +1,10 @@
 package com.doidea.asm;
 
+import com.doidea.core.utils.FileUtil;
+
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 public class AsmTest {
@@ -12,6 +15,8 @@ public class AsmTest {
         //System.out.println(UUID.randomUUID().toString()); // 1d1d4ae4-6718-442f-80a0-9006d48dc3f7
         //testShowDialog(null, null, "Your IntelliJ IDEA trial has expired");
         //new JDialog().setTitle("Licenses");
+        //testReadConfig();
+
 
         String title = "Licenses";
         // title = title.trim(); // 尽可能不改动原 title
@@ -67,5 +72,12 @@ public class AsmTest {
             return 0;
         }
         return 1;
+    }
+
+    public static void testReadConfig() {
+        Map<String, String> configMap = FileUtil.readPropConfig("src/main/resources/doidea.properties");
+        for (Map.Entry<String, String> entry : configMap.entrySet()) {
+            System.out.println("Key=" + entry.getKey() + ", Value=" + entry.getValue());
+        }
     }
 }

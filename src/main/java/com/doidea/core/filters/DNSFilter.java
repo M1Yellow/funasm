@@ -2,16 +2,15 @@ package com.doidea.core.filters;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.List;
 
 public class DNSFilter {
 
-    private static final List<String> DNSList = Arrays.asList(
-            "jetbrains.com",
-            "plugin.obroom.com",
-            "brucege.com"
-    );
+    private static List<String> DNSList;
+
+    public static void setDNSList(List<String> DNSList) {
+        DNSFilter.DNSList = DNSList;
+    }
 
     public static String testQuery(String host) throws UnknownHostException {
         if (null == host || host.trim().isEmpty() || null == DNSList || DNSList.isEmpty())

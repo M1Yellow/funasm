@@ -1,6 +1,7 @@
 package com.doidea.core.transformers;
 
 import com.doidea.core.Dispatcher;
+import com.doidea.core.Launcher;
 
 /**
  * 修改项管理
@@ -8,9 +9,6 @@ import com.doidea.core.Dispatcher;
 public class TransformerManager {
 
     private final Dispatcher dispatcher;
-
-    /* TODO 使用模式：0-去授权弹窗；1-使用激活码 */
-    private static final int MODE = 0;
 
     public TransformerManager(Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
@@ -21,14 +19,14 @@ public class TransformerManager {
      */
     public void preDispatcher() {
 
-        switch (MODE) {
-            case 0:
+        switch (Launcher.propMap.get("mode")) {
+            case "0":
                 // 去掉【试用已到期】提示弹窗
                 dispatcher.addTransformer(new MessagesShowDialogTransformer());
                 // 去掉 Licenses（许可证）弹窗
                 dispatcher.addTransformer(new JDialogSetTitleTransformer());
                 break;
-            case 1:
+            case "1":
                 // validateKey.action 请求拦截
                 dispatcher.addTransformer(new HttpClientTransformer());
                 // DNS 域名解析屏蔽

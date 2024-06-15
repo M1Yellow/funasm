@@ -8,9 +8,11 @@ import java.util.List;
 
 public class URLFilter {
 
-    private static final List<String> URLList = Arrays.asList(
-            "validateKey.action" // 验证激活码
-    );
+    private static List<String> URLList;
+
+    public static void setURLList(List<String> URLList) {
+        URLFilter.URLList = URLList;
+    }
 
     public static URL testURL(URL url) throws IOException {
         if (null == url || url.toString().trim().isEmpty() || null == URLList || URLList.isEmpty())

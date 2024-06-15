@@ -7,6 +7,10 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.*;
 
+
+/**
+ * transform 调度
+ */
 public class Dispatcher implements ClassFileTransformer {
     /**
      * 目标类名集合
@@ -46,8 +50,8 @@ public class Dispatcher implements ClassFileTransformer {
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-
         if (null == className || className.isBlank()) return classfileBuffer;
+        // TODO transform 方法内的日志能在 idea.log 中打印
         //System.out.println(">>>> loading Class: " + className); // xxx/xxxx/xxx 格式
         String targetClassName = className.replace("/", "."); // targetClass 为 xxx.xxxx.xxx$xxx 格式
         List<IMyTransformer> transformers = this.transformerMap.get(targetClassName);
@@ -57,6 +61,10 @@ public class Dispatcher implements ClassFileTransformer {
         // TODO may be null if the bootstrap loader 启动类加载器加载的核心类，loader 为 null。比如：java.lang.String、java.awt.Dialog
         if (null == loader) loader = ClassLoader.getSystemClassLoader().getParent();
         System.out.println(">>>> Target ClassLoader: " + loader.toString()); // toString() -> PathClassLoader；getName() -> null
+
+        // 插件运行模式
+        if (null != Launcher.propMap && !Launcher.propMap.isEmpty())
+            System.out.println(">>>> Current MODE: " + Launcher.propMap.get("mode"));
 
         int order = 0; // 自定义 transform 执行顺序，暂未使用
         try {
