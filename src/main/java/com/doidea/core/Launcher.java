@@ -17,10 +17,10 @@ import java.util.jar.JarFile;
  * <br>
  * 有打印日志和配置参数，说明插件可以运行，Test 不存在不用管
  * <br>
- * >>>> agentArgs: null<br>
- * >>>> getJarURI path: /E:/DevRes/doidea/doidea-asm-2.0.0.jar<br>
- * >>>> jarURI.getPath(): /E:/DevRes/doidea/doidea-asm-2.0.0.jar<br>
- * >>>> initConfig configFilePath: E:\DevRes\doidea\doidea.properties<br>
+ * >>>> agentArgs: null <br>
+ * >>>> getJarURI path: /E:/DevRes/doidea/doidea-asm-2.0.0.jar <br>
+ * >>>> jarURI.getPath(): /E:/DevRes/doidea/doidea-asm-2.0.0.jar <br>
+ * >>>> initConfig configFilePath: E:\DevRes\doidea\doidea.properties <br>
  */
 public class Launcher {
 

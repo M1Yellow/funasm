@@ -48,9 +48,9 @@ public class BigIntegerFilter {
         if (!z.toString().startsWith("86010657695287910119278227887631")) return null;
 
         // TODO BigInteger oddModPow 调用的地方比较多，打印太多日志可能会影响正常日志查看，建议适配好之后，关掉打印
-        //System.out.println(">>>> oddModPow x=" + x);
-        //System.out.println(">>>> oddModPow y=" + y);
-        //System.out.println(">>>> oddModPow z=" + z);
+        System.out.println(">>>> oddModPow x=" + x);
+        System.out.println(">>>> oddModPow y=" + y);
+        System.out.println(">>>> oddModPow z=" + z);
 
         if (x.equals(new BigInteger(BigIntegerFilter.x))) {
             if (y.equals(new BigInteger(BigIntegerFilter.y))) {

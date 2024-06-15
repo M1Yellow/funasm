@@ -13,6 +13,9 @@ import java.util.Map;
 
 public class Initializer {
 
+    /**
+     * 初始化插件
+     */
     public static void init(Instrumentation inst, Map<String, Object> params) throws Exception {
         // 初始化插件配置参数
         try {
@@ -28,6 +31,10 @@ public class Initializer {
         inst.addTransformer(dispatcher);
     }
 
+
+    /**
+     * 初始化插件全局参数配置
+     */
     public static void initConfig(Map<String, Object> params) throws Exception {
         // 读取全局配置文件
         String configFilePath = params.get("configFilePath").toString();
