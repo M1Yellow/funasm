@@ -19,6 +19,13 @@ public class TransformerManager {
      */
     public void preDispatcher() {
 
+        // TODO 先执行隐藏操作
+        // 【hideme】异常堆栈移除自定义类名（目前没生效，java.lang.* 核心类的原因？NEO大佬的也没生效，后续再看）
+        dispatcher.addTransformer(new ThrowableTransformer());
+        dispatcher.addTransformer(new ClassNameTransformer());
+        // 【hideme】jvm 启动参数移除 `-javaagent:` 插件信息（有效）
+        dispatcher.addTransformer(new VMTransformer());
+
         switch (Launcher.propMap.get("mode")) {
             case "0":
                 // 去掉【试用已到期】提示弹窗
@@ -27,11 +34,11 @@ public class TransformerManager {
                 dispatcher.addTransformer(new JDialogSetTitleTransformer());
                 break;
             case "1":
-                // validateKey.action 请求拦截
+                // 【url】拦截 validateKey.action 请求
                 dispatcher.addTransformer(new HttpClientTransformer());
-                // DNS 域名解析屏蔽
+                // 【dns】域名解析屏蔽
                 dispatcher.addTransformer(new InetAddressTransformer());
-                // 验签关键方法修改，BigInteger.oddModPow
+                // 【power】验签关键方法修改，BigInteger.oddModPow
                 dispatcher.addTransformer(new BigIntegerTransformer());
                 break;
             default:

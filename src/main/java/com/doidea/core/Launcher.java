@@ -63,6 +63,7 @@ public class Launcher {
             // TODO jar 包类文件加入到 BootstrapClassLoader，以便可以在 ASM 代码中直接调用自定义类方法
             inst.appendToBootstrapClassLoaderSearch(new JarFile(agentFile));
             Map<String, Object> params = new HashMap<>(); // 可以指定初始容量
+            params.put("agentFilePath", agentFile.getPath());
             params.put("configFilePath", new File(agentFile.getParentFile().getPath(), "doidea.properties").getPath());
             // 执行初始化
             Initializer.init(inst, params);

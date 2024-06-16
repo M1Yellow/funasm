@@ -3,6 +3,7 @@ package com.doidea.core;
 import com.doidea.core.filters.BigIntegerFilter;
 import com.doidea.core.filters.DNSFilter;
 import com.doidea.core.filters.URLFilter;
+import com.doidea.core.filters.VmArgumentFilter;
 import com.doidea.core.transformers.TransformerManager;
 import com.doidea.core.utils.FileUtil;
 import com.doidea.core.utils.StringUtil;
@@ -34,7 +35,7 @@ public class Initializer {
      */
     public static void initConfig(Map<String, Object> params) throws Exception {
         // 读取全局配置文件
-        String configFilePath = params.get("configFilePath").toString();
+        String configFilePath = StringUtil.obj2Str(params.get("configFilePath"));
         System.out.println(">>>> initConfig configFilePath: " + configFilePath);
         Launcher.propMap = FileUtil.readPropConfig(configFilePath);
         if (null == Launcher.propMap || Launcher.propMap.isEmpty()) {
@@ -44,7 +45,7 @@ public class Initializer {
             System.out.println(">>>> 没找到配置文件，或者配置解析失败，默认使用去授权弹窗模式");
             if (null == Launcher.propMap) Launcher.propMap = new HashMap<>();
             Launcher.propMap.put("mode", "0");
-            return;
+            //return;
         }
         // 打印全局配置参数
         System.out.println(">>>> 插件全局配置（顺序随机）↓");
@@ -70,6 +71,12 @@ public class Initializer {
             BigIntegerFilter.setY(y);
             BigIntegerFilter.setZ(z);
             BigIntegerFilter.setR(r);
+        }
+        // 设置 jvm filter 参数
+        String agentFilePath = StringUtil.obj2Str(params.get("agentFilePath"));
+        System.out.println(">>>> initConfig agentFilePath: " + agentFilePath);
+        if (null != agentFilePath && !agentFilePath.trim().isEmpty()) {
+            VmArgumentFilter.setAgentFilePath(agentFilePath);
         }
     }
 }
