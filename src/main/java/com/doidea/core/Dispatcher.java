@@ -61,7 +61,9 @@ public class Dispatcher implements ClassFileTransformer {
     }
 
     /**
-     * 注意！transformer 类中的日志可能有时候不打印，导致以为执行！但具体执行的 filters 类又能打印日志！以 filters 类日志为准
+     * TODO 注意！transformers 目录下的类，transform 执行日志可能有时候不打印，导致以为没有执行！
+     *  但 filters 目录下的具体执行修改的类又能打印日志！以 filters 目录下的类日志为准。
+     *  比如：URLFilter testURL 有打印日志说明 transform 已经执行了
      */
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
