@@ -1,7 +1,9 @@
 package com.doidea.asm;
 
+import com.doidea.core.utils.CommonUtil;
 import com.doidea.core.utils.FileUtil;
 
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -16,6 +18,8 @@ public class AsmTest {
         //testShowDialog(null, null, "Your IntelliJ IDEA trial has expired");
         //new JDialog().setTitle("Licenses");
         //testReadConfig();
+        //testGetClassLoader();
+        //testStackTrace(null);
 
 
         String title = "Licenses";
@@ -79,5 +83,28 @@ public class AsmTest {
         for (Map.Entry<String, String> entry : configMap.entrySet()) {
             System.out.println("Key=" + entry.getKey() + ", Value=" + entry.getValue());
         }
+    }
+
+    public static void testGetClassLoader() {
+        try {
+            Class<?> aClass = Class.forName("java.lang.Throwable");
+            ClassLoader classLoader = aClass.getClassLoader(); // null
+            //if (null == classLoader) classLoader = ClassLoader.getSystemClassLoader(); // jdk.internal.loader.ClassLoaders$AppClassLoader@63947c6b
+            if (null == classLoader)
+                classLoader = ClassLoader.getSystemClassLoader().getParent(); // jdk.internal.loader.ClassLoaders$PlatformClassLoader@776ec8df
+            //if (null == classLoader) classLoader = ClassLoader.getSystemClassLoader().getParent().getParent(); // null
+            System.out.println(classLoader);
+            aClass = Class.forName("java.lang.Class");
+            classLoader = aClass.getClassLoader(); // null
+            if (null == classLoader) classLoader = ClassLoader.getSystemClassLoader();
+            System.out.println(classLoader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void testStackTrace(StackTraceElement[] stackTrace) {
+        Throwable t = CommonUtil.mixExceptionStackTrace(new SocketTimeoutException(), "com.doidea.");
+        t.printStackTrace();
     }
 }

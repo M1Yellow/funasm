@@ -1,5 +1,7 @@
 package com.doidea.core.filters;
 
+import com.doidea.core.utils.CommonUtil;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -18,7 +20,8 @@ public class DNSFilter {
 
         System.out.println(">>>> DNSFilter testQuery host: " + host);
         for (String dnsHost : DNSList) {
-            if (host.toLowerCase().contains(dnsHost)) throw new java.net.UnknownHostException();
+            if (host.toLowerCase().contains(dnsHost))
+                throw CommonUtil.mixExceptionStackTrace(new UnknownHostException(), "com.doidea.");
         }
         return host;
     }

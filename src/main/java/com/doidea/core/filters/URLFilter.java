@@ -1,6 +1,7 @@
 package com.doidea.core.filters;
 
-import java.io.IOException;
+import com.doidea.core.utils.CommonUtil;
+
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.List;
@@ -19,13 +20,15 @@ public class URLFilter {
         URLFilter.URLList = URLList;
     }
 
-    public static URL testURL(URL url) throws IOException {
+    public static URL testURL(URL url) throws SocketTimeoutException {
         if (null == url || url.toString().trim().isEmpty() || null == URLList || URLList.isEmpty())
             return null;
 
         System.out.println(">>>> URLFilter testURL url: " + url);
         for (String key : URLList) {
-            if (url.toString().contains(key)) throw new SocketTimeoutException();
+            if (url.toString().contains(key)) {
+                throw CommonUtil.mixExceptionStackTrace(new SocketTimeoutException(), "com.doidea.");
+            }
         }
         return url;
     }

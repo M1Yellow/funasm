@@ -1,5 +1,6 @@
 package com.doidea.core.transformers;
 
+import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 
 public interface IMyTransformer {
@@ -15,6 +16,10 @@ public interface IMyTransformer {
     }
 
     default byte[] transform(ClassLoader loader, String className, byte[] classBytes, int order) throws Exception {
+        return classBytes;
+    }
+
+    default byte[] transform(Instrumentation inst, ClassLoader loader, String className, byte[] classBytes, int order) throws Exception {
         return classBytes;
     }
 }

@@ -109,7 +109,7 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
             if (null != mv && "setTitle".equals(name) && "(Ljava/lang/String;)V".equals(descriptor)) {
                 System.out.println(">>>> Target method name: " + name);
                 System.out.println(">>>> Target method descriptor: " + descriptor);
-                return new SetTitleVisitor(ASM8, mv, name, access, descriptor);
+                return new SetTitleMethodVisitor(ASM8, mv, name, access, descriptor);
             }
             return mv;
         }
@@ -118,13 +118,13 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
     /**
      * 重写方法访问器
      */
-    private static class SetTitleVisitor extends MethodVisitor {
+    private static class SetTitleMethodVisitor extends MethodVisitor {
 
         private final String name;
         private final int access;
         private final String descriptor;
 
-        public SetTitleVisitor(int api, MethodVisitor mv, String name, int access, String descriptor) {
+        public SetTitleMethodVisitor(int api, MethodVisitor mv, String name, int access, String descriptor) {
             super(api, mv);
             this.name = name;
             this.access = access;

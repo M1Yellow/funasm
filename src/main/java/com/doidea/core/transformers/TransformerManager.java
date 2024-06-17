@@ -21,7 +21,7 @@ public class TransformerManager {
 
         // TODO 先执行隐藏操作
         // 【hideme】异常堆栈移除自定义类名（目前没生效，java.lang.* 核心类的原因？NEO大佬的也没生效，后续再看）
-        dispatcher.addTransformer(new ThrowableTransformer());
+        //dispatcher.addTransformer(new ThrowableTransformer()); // 效果不对
         dispatcher.addTransformer(new ClassNameTransformer());
         // 【hideme】jvm 启动参数移除 `-javaagent:` 插件信息（有效）
         dispatcher.addTransformer(new VMTransformer());

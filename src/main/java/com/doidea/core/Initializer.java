@@ -22,11 +22,26 @@ public class Initializer {
         // 初始化插件配置参数
         initConfig(params);
         // 创建 transform 调度器
-        Dispatcher dispatcher = new Dispatcher();
+        Dispatcher dispatcher = new Dispatcher(inst);
         // 实例化 transform 管理
         new TransformerManager(dispatcher).preDispatcher();
         // Instrumentation 设置 transform
-        inst.addTransformer(dispatcher);
+        //inst.addTransformer(dispatcher);
+        // JVM未加载的类，addTransformer 后就能生效
+        inst.addTransformer(dispatcher, true);
+        // JVM已经加载的类，需要调用 retransformClasses 来触发修改
+        //inst.retransformClasses(Class.forName("xxx.xxxx.xxx"));
+
+        /*
+        Set<String> classSet = dispatcher.getTargetClassNames();
+        for (Class<?> c : inst.getAllLoadedClasses()) { // TODO 动态获取所有JVM已加载的类，这时候可能目标类还没加载
+            String name = c.getName().replace("/", ".");
+            if (classSet.contains(name)) {
+                System.out.println(">>>> retransformClasses Class: " + name);
+                inst.retransformClasses(c);
+            }
+        }
+        */
     }
 
 

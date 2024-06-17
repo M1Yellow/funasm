@@ -42,16 +42,16 @@ public class VMTransformer implements IMyTransformer {
                 System.out.println(">>>> Target method descriptor: " + mn.desc);
 
                 InsnList insnList = new InsnList();
-                insnList.add(new VarInsnNode(ALOAD, 0));
-                insnList.add(new VarInsnNode(ALOAD, 0)); // 不是重复！两次避免 this 为 null
+                insnList.add(new VarInsnNode(ALOAD, 0)); // GETFIELD 操作
+                insnList.add(new VarInsnNode(ALOAD, 0)); // PUTFIELD 操作
                 insnList.add(new FieldInsnNode(GETFIELD, "sun/management/VMManagementImpl", "vmArgs", "Ljava/util/List;"));
                 insnList.add(new MethodInsnNode(INVOKESTATIC, "com/doidea/core/filters/VmArgumentFilter", "testArgs", "(Ljava/util/List;)Ljava/util/List;", false));
                 insnList.add(new FieldInsnNode(PUTFIELD, "sun/management/VMManagementImpl", "vmArgs", "Ljava/util/List;"));
 
                 // 在方法返回前加入指令集
                 for (AbstractInsnNode in : mn.instructions) {
-                    if (NOP == in.getType() && ARETURN == in.getOpcode())
-                        mn.instructions.insert(in.getPrevious().getPrevious(), insnList);
+                    if (AbstractInsnNode.INSN == in.getType() && ARETURN == in.getOpcode())
+                        mn.instructions.insert(in.getPrevious().getPrevious(), insnList); // ARETURN 前两个节点，可以用 ASMPlugin 查看
                 }
             }
         }

@@ -44,4 +44,29 @@ public class StringUtil {
         return getRandomString(len);
     }
 
+    /**
+     * 随机生产类名
+     *
+     * @param range  长度范围，默认6 [1, range]
+     * @param groups 几组，< 1 则随机 [1, 6]，xxx.xxx.xxx...
+     * @param split  分隔符，默认 .
+     * @return 随机类名
+     */
+    public static String getRandomClassName(int range, int groups, String split) {
+        if (range < 1) range = 6;
+        int len = (int) (Math.random() * range) + 1;
+        if (groups < 1) groups = (int) (Math.random() * 6) + 1;
+        if (null == split || split.trim().isEmpty()) split = ".";
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < groups; i++) {
+            sb.append(getRandomString(len)).append(split);
+            len = (int) (Math.random() * range) + 1;
+        }
+        return sb.substring(0, sb.lastIndexOf("."));
+    }
+
+    public static String getRandomClassNameDefault() {
+        return getRandomClassName(0, 0, null);
+    }
+
 }

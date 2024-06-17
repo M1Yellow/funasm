@@ -4,7 +4,7 @@ public class ClassNameFilter {
 
     public static void testClass(String name) throws ClassNotFoundException {
         if (null == name || name.trim().isEmpty()) return;
-        if (name.toLowerCase().startsWith("com.doidea.")) {
+        if (name.toLowerCase().contains("com.doidea.")) {
             ClassNotFoundException e = new ClassNotFoundException(name);
             StackTraceElement[] elements = e.getStackTrace();
             if (elements.length > 0) {
