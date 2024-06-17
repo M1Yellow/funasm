@@ -16,7 +16,7 @@ public class CommonUtil {
                 if (stackTrace[i].getClassName().replace("/", ".").contains(key)) {
                     // 自定义堆栈元素
                     StackTraceElement element = new StackTraceElement(
-                            StringUtil.getRandomClassNameDefault(), StringUtil.getRandomClassNameDefault(),
+                            StringUtil.getRandomClassNameDefault(), StringUtil.getRandomLengthString(10),
                             StringUtil.getRandomLengthString(10), (int) (Math.random() * 1000) + 1);
                     stackTrace[i] = element;
                     isMod = true;
