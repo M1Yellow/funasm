@@ -18,6 +18,10 @@ public class AsmTest {
                 || title.trim().contains("trial has expired") || title.trim().contains("试用已到期")) {
             throw new RuntimeException();
         }
+
+
+        testShowDialog(null, null, "Your IntelliJ IDEA trial has expired");
+
     }
 
     public static byte[] testUserName(byte[] bArr, long j) {
@@ -57,5 +61,14 @@ public class AsmTest {
 
         String machineId = UUID.randomUUID().toString();
         return machineId;
+    }
+
+    public static int testShowDialog(Object obj, String msg, String title) {
+        // title = title.trim(); // 尽可能不改动原 title
+        if (title.trim().contains("trial has expired") || title.trim().contains("试用已到期")) {
+            System.out.println(title);
+            return 0;
+        }
+        return 1;
     }
 }

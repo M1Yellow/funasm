@@ -21,10 +21,12 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
     public byte[] transform(ClassLoader loader, String className, byte[] classBytes, int order) throws Exception {
         byte[] newByte;
         try {
+            // 先使用 tree API 修改字节码
             newByte = getAsmTreeBytes(loader, className, classBytes);
         } catch (Throwable e) {
             System.err.println(">>>> JDialogSetTitleTransformer getAsmTreeBytes error: " + e.getMessage());
             e.printStackTrace();
+            // tree API 修改失败，再用 core API
             newByte = getAsmBytes(className, classBytes);
         }
         return newByte;
@@ -40,13 +42,14 @@ public class JDialogSetTitleTransformer implements IMyTransformer {
         //cr.accept(cn, 0); // 0-默认
         cr.accept(cn, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES); // 跟 COMPUTE_FRAMES 搭配
         for (MethodNode mn : cn.methods) {
+            // .method public setTitle(Ljava/lang/String;)V
             if ("setTitle".equals(mn.name) && "(Ljava/lang/String;)V".equals(mn.desc)) {
                 System.out.println(">>>> Target method name: " + mn.name);
                 System.out.println(">>>> Target method descriptor: " + mn.desc);
 
                 InsnList insnList = new InsnList();
                 insnList.add(new FieldInsnNode(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
-                insnList.add(new VarInsnNode(ALOAD, 1));
+                insnList.add(new VarInsnNode(ALOAD, 1)); // 非静态方法，0-this；1-第一个参数；依次类推。静态方法，0-第一个参数；1-第二个；依次类推
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
                 insnList.add(new VarInsnNode(ALOAD, 1));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "trim", "()Ljava/lang/String;", false));

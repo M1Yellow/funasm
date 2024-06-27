@@ -16,7 +16,9 @@ public class TransformerManager {
      * 准备 dispatcher 数据
      */
     public void preDispatcher() {
-        // Licenses（许可证）弹窗设置标题方法修改
+        // 去掉【试用已到期】提示弹窗
+        dispatcher.addTransformer(new MessagesShowDialogTransformer());
+        // 去掉 Licenses（许可证）弹窗
         dispatcher.addTransformer(new JDialogSetTitleTransformer());
         // obtainAnonTrial.action/validateKey.action 请求参数 userName 修改
         //dispatcher.addTransformer(new ParamUserNameTransformer());
