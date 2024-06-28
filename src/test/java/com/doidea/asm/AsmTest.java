@@ -15,7 +15,7 @@ public class AsmTest {
         //Stream.of(Thread.currentThread().getStackTrace()).forEach(System.out::println);
         //new RuntimeException(">>>> Print stacktrace: \n").printStackTrace();
         //System.out.println(UUID.randomUUID().toString()); // 1d1d4ae4-6718-442f-80a0-9006d48dc3f7
-        //testShowDialog(null, null, "Your IntelliJ IDEA trial has expired");
+        //testShowDialog(null, null, "trial has expired");
         //new JDialog().setTitle("Licenses");
         //testReadConfig();
         //testGetClassLoader();

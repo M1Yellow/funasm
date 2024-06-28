@@ -74,7 +74,7 @@ public class AsmTestDump implements Opcodes {
             methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
             methodVisitor.visitInsn(ACONST_NULL);
             methodVisitor.visitInsn(ACONST_NULL);
-            methodVisitor.visitLdcInsn("Your IntelliJ IDEA trial has expired");
+            methodVisitor.visitLdcInsn("trial has expired");
             methodVisitor.visitMethodInsn(INVOKESTATIC, "com/doidea/asm/AsmTest", "testShowDialog", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)I", false);
             methodVisitor.visitInsn(POP);
             Label label5 = new Label();

@@ -56,7 +56,7 @@ public class InetAddressTransformer implements IMyTransformer {
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
                 insnList.add(new VarInsnNode(ALOAD, 0));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "toLowerCase", "()Ljava/lang/String;", false));
-                insnList.add(new LdcInsnNode("jetbrains.com"));
+                insnList.add(new LdcInsnNode("jet" + "brains.com"));
                 //insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "contains", "(Ljava/lang/CharSequence;)Z", false));
                 LabelNode label1 = new LabelNode();
@@ -105,7 +105,7 @@ public class InetAddressTransformer implements IMyTransformer {
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
                 insnList.add(new VarInsnNode(ALOAD, 4));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "toLowerCase", "()Ljava/lang/String;", false));
-                insnList.add(new LdcInsnNode("jetbrains.com"));
+                insnList.add(new LdcInsnNode("jet" + "brains.com"));
                 //insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false));
                 insnList.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/String", "contains", "(Ljava/lang/CharSequence;)Z", false));
                 LabelNode label1 = new LabelNode();
