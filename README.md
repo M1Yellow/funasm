@@ -45,7 +45,7 @@
 
 > 1. 最开始就不点试用，直接用这个工具
 > 2. 点了试用，但还没到期，先去移除试用许可就行了
-> 3. **试用了且到期了**，删除 C:\Users\xxx\AppData\Roaming\JetBrains\IntelliJIdea2024.x\idea.key 这个文件即可
+> 3. **试用了且到期了**，删除 C:\Users\xxx\AppData\Roaming\JetBraxxs\IntelxxxIdea2024.x\idea.key 这个文件即可
 
 
 <br/>
